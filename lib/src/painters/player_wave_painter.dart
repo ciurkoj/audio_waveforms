@@ -79,17 +79,13 @@ class PlayerWavePainter extends CustomPainter {
     for (int i = 0; i < length; i++) {
       final currentDragPointer = dragOffset.dx - totalBackDistance.dx;
       final waveWidth = i * playerWaveStyle.spacing;
-      final dx = waveWidth +
-          currentDragPointer +
-          emptySpace +
-          (waveformType.isFitWidth ? 0 : halfWidth);
-      final waveHeight = (waveformData[i] * animValue) *
-          playerWaveStyle.scaleFactor *
-          scrollScale;
+      final dx =
+          waveWidth + currentDragPointer + emptySpace + (waveformType.isFitWidth ? 0 : halfWidth);
+      final waveHeight = (waveformData[i] * animValue) * playerWaveStyle.scaleFactor * scrollScale;
       final bottomDy =
-          halfHeight + (playerWaveStyle.showBottom ? waveHeight : 0);
-      final topDy = halfHeight + (playerWaveStyle.showTop ? -waveHeight : 0);
-
+          halfHeight + (playerWaveStyle.showBottom ? (waveHeight.isNaN ? 0.1 : waveHeight) : 0);
+      final topDy =
+          halfHeight + (playerWaveStyle.showTop ? -(waveHeight.isNaN ? 0.1 : waveHeight) : 0);
       // Only draw waves which are in visible viewport.
       if (dx > 0 && dx < halfWidth * 2) {
         canvas.drawLine(
